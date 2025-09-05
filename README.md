@@ -1,47 +1,177 @@
-# Aircrew
+# 🚀 Coder-Taskforce
 
-Aircrew is a tool that enables copilot to become a full engineering team through the use of contextual container environments orchestrated by an agentic AI "Project Manager"
+> **AI Agent Engineering Team Orchestration Platform**
 
-The intended use case is to extend agentic models to handle larger tasks that require a multitude of steps, have dependencies, and need planning and decsision making to complete.
+Coder-Taskforce is a revolutionary platform that creates specialized AI engineering teams using **Coder Tasks** technology. Instead of single AI assistants, you get an entire engineering taskforce where AI agents collaborate like a real development team.
+
+## 🎯 What is Coder-Taskforce?
+
+Imagine having a complete engineering team where each member is an AI specialist:
+
+- **🏗️ Project Manager Agent**: Plans, organizes, and coordinates development
+- **👨‍💻 Developer Agent**: Writes code, implements features, and manages technical tasks
+- **🧪 QA Agent**: Tests, validates, and ensures quality _(future)_
+- **📚 Documentation Agent**: Creates and maintains project documentation _(future)_
+- **🏛️ Architect Agent**: Designs system architecture and technical strategy _(future)_
+
+Each agent runs in its own **Coder Tasks workspace** with specialized tools, AI models, and capabilities.
+
+## ✨ Key Features
+
+### 🤖 **Native AI Agent Integration**
+
+- **Claude Code**: Advanced code generation and architectural planning
+- **Aider**: Git-aware AI coding assistant for iterative development
+- **Custom Agents**: Specialized taskforce agents via Model Context Protocol (MCP)
+- **AgentAPI**: Enhanced agent communication and status reporting
+
+### 🏢 **Enterprise-Ready Architecture**
+
+- **Self-Hosted**: Complete control over your AI engineering team
+- **Workspace Isolation**: Each agent runs in secure, isolated environments
+- **Enterprise LLM Support**: AWS Bedrock, GCP Vertex, or self-hosted models
+- **MCP Protocol**: Structured agent-to-agent communication
+
+### 🔄 **Real Engineering Workflows**
+
+- **Project Management**: Create projects, assign tasks, track progress
+- **Code Reviews**: Automated peer review between agents
+- **Documentation**: Auto-generated docs that stay up-to-date
+- **Testing**: Comprehensive test coverage and validation
+- **Deployment**: Coordinated release management
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- [Coder Server](https://coder.com/docs/install) installed
+- Docker for containerized workspaces
+- Git for version control
+
+### 1. Install Coder-Taskforce
+
+```bash
+# Clone the repository
+git clone https://github.com/your-org/coder-taskforce.git
+cd coder-taskforce
+
+# Deploy Coder templates
+coder template create --directory ./templates/pm-agent
+coder template create --directory ./templates/dev-agent
+
+# Initialize the coordination server
+cd coordination-server
+npm install && npm run build && npm start
+```
+
+### 2. Create Your First Engineering Taskforce
+
+```bash
+# Create a PM Agent task
+coder create --template pm-agent my-project-pm
+
+# Create a DEV Agent task
+coder create --template dev-agent my-project-dev
+
+# Access the Coder Tasks UI
+open http://localhost:7080/tasks
+```
+
+### 3. Start Building
+
+1. **Open the PM Agent**: Plan your project and create tasks
+2. **Assign to DEV Agent**: DEV agent receives tasks and implements features
+3. **Monitor Progress**: Watch agents collaborate in real-time
+4. **Review Results**: Code reviews, tests, and documentation generated automatically
+
+## 🏗️ Architecture
+
+```
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   PM Agent      │    │   DEV Agent     │    │   QA Agent      │
+│                 │    │                 │    │   (Future)      │
+│ • Claude Code   │    │ • Aider         │    │ • Test Gen      │
+│ • Project Mgmt  │◄──►│ • Code Gen      │◄──►│ • Validation    │
+│ • Task Planning │    │ • Git Integration│    │ • Quality Gates │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+         │                       │                       │
+         └───────────────────────┼───────────────────────┘
+                                 │
+                    ┌─────────────────┐
+                    │ Coordination    │
+                    │ Server          │
+                    │                 │
+                    │ • MCP Protocol  │
+                    │ • AgentAPI      │
+                    │ • Task Queue    │
+                    │ • State Mgmt    │
+                    └─────────────────┘
+```
+
+## 🛠️ Agent Capabilities
+
+### PM Agent (Project Manager)
+
+- **Project Planning**: Break down requirements into actionable tasks
+- **Resource Allocation**: Assign tasks to appropriate agents
+- **Progress Tracking**: Monitor task completion and blockers
+- **Stakeholder Communication**: Generate status reports and updates
+
+### DEV Agent (Developer)
+
+- **Feature Development**: Implement features from PM specifications
+- **Code Reviews**: Review and improve code quality
+- **Technical Documentation**: Document APIs and technical decisions
+- **Testing**: Write and maintain unit/integration tests
+
+### Future Agents
+
+- **QA Agent**: Automated testing and quality assurance
+- **DevOps Agent**: CI/CD pipeline management and deployment
+- **Security Agent**: Security scanning and compliance checking
+- **Documentation Agent**: Comprehensive project documentation
+
+## 📋 Use Cases
+
+### 🎯 **Rapid Prototyping**
+
+"Build a REST API for user management with authentication"
+
+- **PM Agent**: Creates project plan and task breakdown
+- **DEV Agent**: Implements API endpoints, auth, and tests
+- **Result**: Production-ready API in minutes
+
+### 🏢 **Enterprise Development**
+
+"Migrate legacy system to microservices architecture"
+
+- **PM Agent**: Plans migration strategy and timeline
+- **Architect Agent**: Designs new system architecture
+- **DEV Agent**: Implements services iteratively
+- **QA Agent**: Validates each component
+
+### 📚 **Learning & Education**
+
+"Explain and implement design patterns in TypeScript"
+
+- **PM Agent**: Creates learning curriculum
+- **DEV Agent**: Implements pattern examples
+- **Documentation Agent**: Creates comprehensive guides
+
+## 🤝 Contributing
+
+We welcome contributions! See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
+
+## 📄 License
+
+MIT License - see [LICENSE](./LICENSE) for details.
+
+## 🌟 Why Coder-Taskforce?
+
+Traditional AI coding assistants work in isolation. **Coder-Taskforce creates AI engineering teams** that collaborate, specialize, and coordinate just like human teams - but faster, more consistently, and available 24/7.
+
+**The future of software development is here.** 🚀
 
 ---
 
-## Concept
-
-Taking inspiration from how Agile software development teams typically function, the tool is organized by roles:
-
-- *Project Manager*: "PM"
-- *Architect*: "Arc"
-- *Developer*: "Dev"
-- *Quality Assurance*: "QA"
-- *Documentation*: "Doc"
-
-Each role is a seperate runtime instance of code-server, and contains an authenticated instance of the Github Copilot extension, a copilot-instructions.md file, an mcp server for interacting with the other roles, and any helpful resources that allow that agent to be more specialized in their tasks.
-
-The main service, *PM*, is interacted with by the user through a generic LLM chat interface, during this interaction, *PM* seeks to understand the problem at hand that their team will be in charge of handling. 
-
-For this example, lets say we give them the task to "create a landing page to market our product with a newsletter signup form that connects to our surveymonkey mailing list." 
-
-*PM* will probably ask a few qualifying questions such as "what is your product", "does your company have a branding defintion for the landing page to follow", or "what is the look and feel your product is trying to express?" and may even ask for technical implementation preferences. Their role at this stage is to probe for as many requirements as they can, this is important as their role in the later processes is to act as an SME for the project definition.
-
-Once *PM* has collected information from the user, it'll start a running job instance for that project type. At this stage, *PM* is organizing all of its understanding of the user's requirements into a document they can refer back to later. PM then uses this document to coordinate with another role, *Arc*, to create an implementation plan for the requested project. 
-
-*Arc* differs greatly in nature to *PM* because its role requires the process of solving problems, not necessarily defining them. This is the main seperation that exists between *PM* and the "tasker" roles, specialty in their ability to perform a function and only expected to perform one task or piece of work at a time. *PM* is in charge of creating those tasks and managing them as work is done to complete them. 
-
-*PM* creates the task of creating an implementation plan, and attaches the requirements document along with it before assigning the task to *Arc*. *Arc* is built with tools like concept7, has access to software architecture best practices, modern technology defintions, and other specialized resources so that it can perform the task of planning the technical implementation as effectively as possible. Not only will it need to make opinionated decisions on how best to go about creating a solution to the request, but it also needs to be able to break down the solution into workable steps for *PM* to distribute to other workers. When *Arc* has completed its implementation plan, it sends it back over to *PM* for evaluation of whether that solution will meet the requirements of the request. If it doesn't, *PM* will provide feedback of why it doesn't meet those requirements, and re-assign the task to *Arc*.
-
-If the implementation plan created by *Arc* is satisfactory to the requirements of the request, *PM* begins creating a sequenced set of tasks based on that plan. It does its best to identify the dependency chain for the project and identifies where tasks could be completed in parallel. Once the tasks are completed we move to the main loop of what this tool does.
-
-For each of the tasks that have been created, and following the dependency chain required by the project, *PM* assigns a *Dev* to a given task. This process is very similar to how Github Copilot coding agents work, a *Dev* shouldn't be given an intensely large task or really require any kind of decision making to complete their assigned task outside of implementation decisions not covered by the plan, maintaining code quality, and aligning with best practices for whatever technology is being used. A *Dev*'s environment is a much heavier version of code-server, providing access to extensions needed for running projects, mcp servers for interacting with the web browser and will probably need to install software in its environment to properly work in the project.
-
-Once *Dev* has created a first draft of an implementation of the task, it reports back to *PM* with a pull request. *PM* then assigns a *QA* to test that branch against the requirements and acceptance criteria for that task. *QA*'s environment is setup with testing framework documentation, has more access to the project context, and has mcp tools heavily geared towards interaction with existing software. After *QA*'s testing, it reports back to *PM* regarding if the solution meets the acceptance criteria of the task at hand. If it does not, then *QA* reports specifically where it is lacking and *PM* reassigns the task to a *Dev* with that information. If it does meet the acceptance criteria, then *PM* merges the pull request and assigns the next task in the dependency chain to a *Dev*, thus creating a loop until the final task is complete. At this step, *PM* also assigns a *Doc* to create a summary of the work completed and that is going in and save it to a log of the project.
-
-Once the final task is complete, *PM* reports back to the user the results along with the log of the actions taken to create the result.
-
----
-
-## Why?
-
-As I have used AI tools in my developer workflow more and more, it has frequently frustrated me that I was the bottleneck in the flow of prompts that would lead to a given task being completed. Agentic models have come a long way, but they do not excel currently at tasks that require many different steps that have to be coordinated over an extended period of time. This is where I, the user, would have to manage keeping each work item as small as possible to allow the model to not be burdened to heavily with the load of context.
-
-That responsibility is the bottleneck that I'm referring to as I am human and cannot be monitoring the results of tasks of more than maybe 2 agents at the same time. Thus this project was born, mainly out of curiousity, to test if an AI could perform the management of other AIs similar to how engineering teams function within organizations
+_Built with ❤️ using [Coder Tasks](https://coder.com/docs/ai-coder/tasks) and the [Model Context Protocol](https://modelcontextprotocol.io/)_

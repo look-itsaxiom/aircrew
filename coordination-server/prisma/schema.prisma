@@ -1,0 +1,129 @@
+// Coder-Taskforce Coordination Database Schema
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "sqlite"
+    url      = env("DATABASE_URL")
+}
+
+// Projects managed by the AI agent taskforce
+model Project {
+    id          String  @id @default(cuid())
+    name        String
+    description String?
+    status      String  @default("PLANNING") // PLANNING, IN_PROGRESS, REVIEW, COMPLETED, CANCELLED, ON_HOLD
+    priority    String  @default("MEDIUM") // LOW, MEDIUM, HIGH, URGENT
+
+    // Metadata
+    createdAt   DateTime  @default(now())
+    updatedAt   DateTime  @updatedAt
+    startedAt   DateTime?
+    completedAt DateTime?
+
+    // Relationships
+    tasks    Task[]
+    messages AgentMessage[]
+
+    @@map("projects")
+}
+
+// Individual tasks within projects
+model Task {
+    id          String  @id @default(cuid())
+    projectId   String
+    title       String
+    description String?
+    status      String  @default("TODO") // TODO, IN_PROGRESS, REVIEW, TESTING, DONE, CANCELLED, BLOCKED
+    priority    String  @default("MEDIUM") // LOW, MEDIUM, HIGH, URGENT
+
+    // Assignment
+    assignedTo     String? // Agent role (PM, DEV, QA, etc.)
+    assignedById   String? // Which agent assigned this task
+    estimatedHours Int?
+    actualHours    Int?
+
+    // Dependencies (JSON strings for SQLite compatibility)
+    blockedBy String? // JSON array of task IDs this task depends on
+    blocking  String? // JSON array of task IDs that depend on this task
+
+    // Metadata
+    createdAt   DateTime  @default(now())
+    updatedAt   DateTime  @updatedAt
+    startedAt   DateTime?
+    completedAt DateTime?
+    dueDate     DateTime?
+
+    // Relationships
+    project  Project        @relation(fields: [projectId], references: [id], onDelete: Cascade)
+    messages AgentMessage[]
+
+    @@map("tasks")
+}
+
+// Messages between AI agents using MCP protocol
+model AgentMessage {
+    id String @id @default(cuid())
+
+    // MCP Protocol fields
+    fromAgent   String // Source agent identifier
+    toAgent     String // Target agent identifier (or "broadcast")
+    messageType String // Type of message (task_assignment, progress_update, etc.)
+    content     String // JSON string message payload
+
+    // Context
+    projectId String?
+    taskId    String?
+
+    // Status tracking
+    status      String    @default("SENT") // SENT, DELIVERED, READ, FAILED, RETRY
+    deliveredAt DateTime?
+    readAt      DateTime?
+
+    // Metadata
+    createdAt DateTime @default(now())
+
+    // Relationships
+    project Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
+    task    Task?    @relation(fields: [taskId], references: [id], onDelete: Cascade)
+
+    @@map("agent_messages")
+}
+
+// AI Agent instances and their status
+model Agent {
+    id     String @id @default(cuid())
+    name   String // Human-readable name
+    role   String // PM, ARCHITECT, DEV, QA, DEVOPS, DOC, COORDINATOR
+    status String @default("OFFLINE") // ONLINE, OFFLINE, BUSY, IDLE, ERROR
+
+    // Connection info
+    endpoint     String? // WebSocket or HTTP endpoint
+    lastPing     DateTime?
+    capabilities String? // JSON string of what this agent can do
+
+    // Metadata
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@unique([name, role])
+    @@map("agents")
+}
+
+// Communication channels for agent coordination
+model Channel {
+    id          String  @id @default(cuid())
+    name        String  @unique
+    description String?
+    type        String  @default("GENERAL") // GENERAL, PROJECT, URGENT, SYSTEM
+
+    // Access control (JSON strings for SQLite compatibility)
+    allowedRoles String? // JSON array of AgentRole values
+    isPrivate    Boolean @default(false)
+
+    // Metadata
+    createdAt DateTime @default(now())
+
+    @@map("channels")
+}

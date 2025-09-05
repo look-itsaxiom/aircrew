@@ -1,0 +1,55 @@
+version: "3.8"
+
+services:
+  mcp-server:
+    build:
+      context: .
+      dockerfile: ./mcp-server/Dockerfile
+    volumes:
+      - ./shared:/shared
+    ports:
+      - "3001:3001"
+    environment:
+      - DATABASE_PATH=/shared/database/aircrew.db
+      - NODE_ENV=development
+    networks:
+      - aircrew-network
+
+  pm-agent:
+    build:
+      context: .
+      dockerfile: ./pm-agent/Dockerfile
+    volumes:
+      - ./shared:/shared
+    ports:
+      - "8080:8080" # code-server port
+    environment:
+      - MCP_SERVER_URL=http://mcp-server:3001
+      - AGENT_ROLE=PM
+    depends_on:
+      - mcp-server
+    networks:
+      - aircrew-network
+
+  dev-agent:
+    build:
+      context: .
+      dockerfile: ./dev-agent/Dockerfile
+    volumes:
+      - ./shared:/shared
+    ports:
+      - "8081:8080" # code-server port
+    environment:
+      - MCP_SERVER_URL=http://mcp-server:3001
+      - AGENT_ROLE=DEV
+    depends_on:
+      - mcp-server
+    networks:
+      - aircrew-network
+
+networks:
+  aircrew-network:
+    driver: bridge
+
+volumes:
+  shared-data:

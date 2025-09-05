@@ -1,0 +1,17 @@
+{
+  "name": "aircrew-mvp",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "workspaces": [
+    "dev-agent",
+    "pm-agent",
+    "mcp-server",
+    "shared/*"
+  ],
+  "author": "look-itsaxiom",
+  "license": "MIT",
+  "dependencies": {
+    "node-fetch": "^3.3.2"
+  }
+}
